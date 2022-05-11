@@ -7,7 +7,7 @@ plugins {
     // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
     id("com.gradle.plugin-publish") version "0.18.0"
     // https://github.com/ajoberstar/grgit/releases
-    id("org.ajoberstar.grgit") version "5.0.0" //TODO: update to 5.0.0
+    id("org.ajoberstar.grgit") version "5.0.0"
 }
 
 group = "ch.hippmann"
