@@ -4,11 +4,23 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
-    id("com.gradle.plugin-publish") version "1.0.0-rc-1"
+    id("com.gradle.plugin-publish") version "0.18.0"
 }
 
 group = "ch.hippmann"
 version = "0.0.1"
+
+pluginBundle {
+    website = "https://github.com/chippmann/localizer"
+    vcsUrl = "https://github.com/chippmann/localizer.git"
+    tags = listOf("kotlin", "android")
+
+    mavenCoordinates {
+        groupId = "${project.group}"
+        artifactId = project.name
+        version = "${project.version}"
+    }
+}
 
 gradlePlugin {
     plugins {
@@ -20,12 +32,6 @@ gradlePlugin {
         }
     }
     isAutomatedPublishing = false
-}
-
-pluginBundle {
-    website = "https://github.com/chippmann/localizer"
-    vcsUrl = "https://github.com/chippmann/localizer.git"
-    tags = listOf("kotlin", "android")
 }
 
 dependencies {
