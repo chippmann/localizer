@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "ch.hippmann"
-version = "0.0.2"
+version = "1.0.0"
 
 pluginBundle {
     website = "https://github.com/chippmann/localizer"
