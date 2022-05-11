@@ -45,7 +45,7 @@ dependencies {
 
     val ktorVersion = "2.0.1"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-apache:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
 
