@@ -7,7 +7,7 @@ plugins {
     id("com.gradle.plugin-publish") version "1.0.0-rc-1"
 }
 
-group = "ch.hippmann.gradle.plugin.localizer"
+group = "ch.hippmann"
 version = "0.0.1"
 
 gradlePlugin {
@@ -44,14 +44,11 @@ dependencies {
     implementation("com.squareup:kotlinpoet:1.11.0")
 }
 
-tasks {
-    val sourceJar by creating(Jar::class) {
-        archiveBaseName.set(project.name)
-        archiveVersion.set(project.version.toString())
-        archiveClassifier.set("sources")
-        from(sourceSets["main"].allSource)
-    }
+java {
+    withSourcesJar()
+}
 
+tasks {
     build {
         finalizedBy(publishToMavenLocal)
     }
@@ -67,7 +64,6 @@ publishing {
                 version = "${project.version}"
             }
             from(components.getByName("java"))
-            artifact(tasks.getByName("sourceJar"))
         }
     }
 }
