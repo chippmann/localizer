@@ -1,0 +1,50 @@
+name: Create Draft Release
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  create-draft-release:
+    name: Create Github Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Fetch all git refs
+        run: |
+          git fetch --tags --all
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Generate changelog
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: generateChangelog --stacktrace
+
+      - name: Create draft release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: true
+          prerelease: false
+          body_path: build/changelog.md
+
+      - name: Output release url file
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+
+      - name: Save Release URL File for publish
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
