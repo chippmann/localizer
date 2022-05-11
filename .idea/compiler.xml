@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="01_private.ch.hippmann.gradle.plugin.translation" target="11" />
+      <module name="01_private.ch.hippmann.gradle.plugin.translation.main" target="11" />
+      <module name="01_private.ch.hippmann.gradle.plugin.translation.test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
