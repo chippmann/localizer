@@ -91,7 +91,7 @@ the top of the app's `settings.gradle.kts` file:
  
      resolutionStrategy.eachPlugin {
          when (requested.id.id) {
-             "ch.hippmann.localizer" -> useModule("ch.hippmann.localizer:${requested.version}")
+             "ch.hippmann.localizer" -> useModule("ch.hippmann:localizer:${requested.version}")
          }
      }
  }
