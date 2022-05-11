@@ -1,7 +1,7 @@
 package ch.hippmann.localizer.plugin.communication.api
 
-import ch.hippmann.localizer.plugin.communication.RestClient
 import ch.hippmann.localizer.plugin.logging.err
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
@@ -10,13 +10,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal open class BaseApi {
+    private val client = HttpClient()
+
     suspend fun <T> get(
         url: String,
         builder: HttpRequestBuilder.() -> Unit,
         converter: (String) -> T
     ): Result<T> = withContext(Dispatchers.Default) {
         try {
-            val response = RestClient().get(url) {
+            val response = client.get(url) {
                 builder(this)
             }
 
