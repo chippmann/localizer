@@ -21,7 +21,7 @@ The aim these tasks for Kotlin Multiplatform projects at the moment is just ease
 - Add the plugin to your `plugins` block inside `build.gradle.kts`:
     ```kotlin
   plugins {
-      id("ch.hippmann.localizer") version "0.0.1"
+      id("ch.hippmann.localizer") version "0.0.2"
   }
     ```
 
@@ -78,7 +78,7 @@ the top of the app's `settings.gradle.kts` file:
 *Gradle KTS:*
  ```kotlin
  // without this doing:
- //  plugin { id("ch.hippmann.localizer") version "0.0.1-SNAPSHOT" }
+ //  plugin { id("ch.hippmann.localizer") version "0.0.2-SNAPSHOT" }
  // won't work  as gradle does not know how to map the plugin id to an actual artifact.
  // this is only required when trying out local builds. Comment this out when trying out a plugin published
  // in the gradle plugin portal.
@@ -100,7 +100,7 @@ the top of the app's `settings.gradle.kts` file:
 *Gradle groovy:*
 ```groovy
  // without this doing:
- //  plugin { id "ch.hippmann.localizer" version "0.0.1-SNAPSHOT" }
+ //  plugin { id "ch.hippmann.localizer" version "0.0.2-SNAPSHOT" }
  // won't work  as gradle does not know how to map the plugin id to an actual artifact.
  // this is only required when trying out local builds. Comment this out when trying out a plugin published
  // in the gradle plugin portal.
