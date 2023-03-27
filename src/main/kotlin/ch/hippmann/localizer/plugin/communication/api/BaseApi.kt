@@ -8,9 +8,16 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration
 
 internal open class BaseApi {
-    private val client = HttpClient()
+    private val client = HttpClient {
+        install(HttpTimeout) {
+            requestTimeoutMillis = Duration.seconds(20).inWholeMilliseconds
+            connectTimeoutMillis = Duration.seconds(20).inWholeMilliseconds
+            socketTimeoutMillis = Duration.seconds(20).inWholeMilliseconds
+        }
+    }
 
     suspend fun <T> get(
         url: String,

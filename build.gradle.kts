@@ -1,11 +1,12 @@
 import org.ajoberstar.grgit.Grgit
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm") version "1.8.10"
     `java-gradle-plugin`
     `maven-publish`
     // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
-    id("com.gradle.plugin-publish") version "0.18.0"
+    id("com.gradle.plugin-publish") version "1.1.0"
     // https://github.com/ajoberstar/grgit/releases
     id("org.ajoberstar.grgit") version "5.0.0"
 }
@@ -17,12 +18,6 @@ pluginBundle {
     website = "https://github.com/chippmann/localizer"
     vcsUrl = "https://github.com/chippmann/localizer.git"
     tags = listOf("kotlin", "android")
-
-    mavenCoordinates {
-        groupId = "${project.group}"
-        artifactId = project.name
-        version = "${project.version}"
-    }
 }
 
 gradlePlugin {
@@ -34,7 +29,7 @@ gradlePlugin {
             implementationClass = "ch.hippmann.localizer.plugin.LocalizerGradlePlugin"
         }
     }
-    isAutomatedPublishing = false
+    isAutomatedPublishing = true
 }
 
 dependencies {
@@ -62,6 +57,14 @@ val grGit: Grgit = Grgit.open(mapOf("currentDir" to project.rootDir))
 tasks {
     build {
         finalizedBy(publishToMavenLocal)
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs += listOf(
+                "-Xopt-in=kotlin.time.ExperimentalTime"
+            )
+        }
     }
 
     @Suppress("UNUSED_VARIABLE") // used by github actions
