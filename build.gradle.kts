@@ -2,23 +2,18 @@ import org.ajoberstar.grgit.Grgit
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.10"
+    kotlin("jvm") version "1.9.21"
     `java-gradle-plugin`
     `maven-publish`
     // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
-    id("com.gradle.plugin-publish") version "1.1.0"
+    id("com.gradle.plugin-publish") version "1.2.1"
     // https://github.com/ajoberstar/grgit/releases
-    id("org.ajoberstar.grgit") version "5.0.0"
+    id("org.ajoberstar.grgit") version "5.2.1"
 }
 
 group = "ch.hippmann"
-version = "1.0.2"
+version = "1.0.3"
 
-pluginBundle {
-    website = "https://github.com/chippmann/localizer"
-    vcsUrl = "https://github.com/chippmann/localizer.git"
-    tags = listOf("kotlin", "android")
-}
 
 gradlePlugin {
     plugins {
@@ -27,7 +22,10 @@ gradlePlugin {
             displayName = "Generate localization files for Android and KMP"
             description = "Gradle plugin for generating localization files for Android projects and small Kotlin Multiplatform projects"
             implementationClass = "ch.hippmann.localizer.plugin.LocalizerGradlePlugin"
+            tags.set(listOf("kotlin", "android"))
         }
+        website.set("https://github.com/chippmann/localizer")
+        vcsUrl.set("https://github.com/chippmann/localizer.git")
     }
     isAutomatedPublishing = true
 }
@@ -38,14 +36,16 @@ dependencies {
     compileOnly(kotlin("gradle-plugin-api"))
     compileOnly(kotlin("gradle-plugin"))
 
-    val ktorVersion = "2.0.1"
+    // https://github.com/ktorio/ktor/releases
+    val ktorVersion = "2.3.6"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    // https://github.com/Kotlin/kotlinx.coroutines/releases
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     // https://github.com/square/kotlinpoet/releases
-    implementation("com.squareup:kotlinpoet:1.11.0")
+    implementation("com.squareup:kotlinpoet:1.15.1")
 }
 
 java {
@@ -113,7 +113,7 @@ tasks {
                     "- [${commit.abbreviatedId}]($link) ${commit.shortMessage}"
                 }
 
-            project.buildDir.resolve("changelog.md").also {
+            project.layout.buildDirectory.get().asFile.resolve("changelog.md").also {
                 if (!it.parentFile.exists()) {
                     it.parentFile.mkdirs()
                 }

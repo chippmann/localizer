@@ -8,14 +8,14 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 internal open class BaseApi {
     private val client = HttpClient {
         install(HttpTimeout) {
-            requestTimeoutMillis = Duration.seconds(20).inWholeMilliseconds
-            connectTimeoutMillis = Duration.seconds(20).inWholeMilliseconds
-            socketTimeoutMillis = Duration.seconds(20).inWholeMilliseconds
+            requestTimeoutMillis = 20.seconds.inWholeMilliseconds
+            connectTimeoutMillis = 20.seconds.inWholeMilliseconds
+            socketTimeoutMillis = 20.seconds.inWholeMilliseconds
         }
     }
 
