@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -18,10 +18,16 @@ jobs:
         run: |
           git fetch --tags --all
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Setup java
+        uses: actions/setup-java@v4
         with:
-          java-version: 11
+          distribution: temurin
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-cleanup: always
 
       - name: Generate changelog
         uses: eskatos/gradle-command-action@v1
@@ -44,7 +50,7 @@ jobs:
         run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
 
       - name: Save Release URL File for publish
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: release_url
           path: release_url.txt
