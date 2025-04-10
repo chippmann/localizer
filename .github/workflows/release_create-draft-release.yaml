@@ -46,12 +46,3 @@ jobs:
           draft: true
           prerelease: false
           body_path: build/changelog.md
-
-      - name: Output release url file
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-
-      - name: Save Release URL File for publish
-        uses: actions/upload-artifact@v4
-        with:
-          name: release_url
-          path: release_url.txt
