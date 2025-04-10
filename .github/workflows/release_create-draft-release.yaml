@@ -29,10 +29,11 @@ jobs:
         with:
           cache-cleanup: always
 
+      - name: Make gradle wrapper executable
+        run: chmod +x ./gradlew
+
       - name: Generate changelog
-        uses: eskatos/gradle-command-action@v1
-        with:
-          arguments: generateChangelog --stacktrace
+        run: ./gradlew generateChangelog --stacktrace
 
       - name: Create draft release
         id: create_release
