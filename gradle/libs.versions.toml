@@ -1,0 +1,27 @@
+[versions]
+
+localizer = "1.0.4"
+
+toolchain-jvm = "21"
+
+kotlin = "2.1.20" # https://github.com/jetbrains/kotlin/releases
+kotlinx-coroutines = "1.10.2" # https://github.com/Kotlin/kotlinx.coroutines/releases
+
+gradle-publish = "1.3.1" # https://plugins.gradle.org/plugin/com.gradle.plugin-publish
+
+grgit = "5.3.0" # https://github.com/ajoberstar/grgit/releases
+
+ktor = "3.1.2" # https://github.com/ktorio/ktor/releases
+
+kotlinpoet = "2.1.0" # https://github.com/square/kotlinpoet/releases
+
+[libraries]
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+kotlinpoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinpoet" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+gradle-publish = { id = "com.gradle.plugin-publish", version.ref = "gradle-publish" }
+grgit = { id = "org.ajoberstar.grgit", version.ref = "grgit" }

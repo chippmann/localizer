@@ -2,25 +2,23 @@ import org.ajoberstar.grgit.Grgit
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.21"
+    alias(libs.plugins.kotlin.jvm)
     `java-gradle-plugin`
     `maven-publish`
-    // https://plugins.gradle.org/plugin/com.gradle.plugin-publish
-    id("com.gradle.plugin-publish") version "1.2.1"
-    // https://github.com/ajoberstar/grgit/releases
-    id("org.ajoberstar.grgit") version "5.2.1"
+    alias(libs.plugins.gradle.publish)
+    alias(libs.plugins.grgit)
 }
 
 group = "ch.hippmann"
-version = "1.0.3"
-
+version = libs.versions.localizer.get()
 
 gradlePlugin {
     plugins {
         create("localizer") {
             id = "ch.hippmann.localizer"
             displayName = "Generate localization files for Android and KMP"
-            description = "Gradle plugin for generating localization files for Android projects and small Kotlin Multiplatform projects"
+            description =
+                "Gradle plugin for generating localization files for Android projects and small Kotlin Multiplatform projects"
             implementationClass = "ch.hippmann.localizer.plugin.LocalizerGradlePlugin"
             tags.set(listOf("kotlin", "android"))
         }
@@ -36,20 +34,23 @@ dependencies {
     compileOnly(kotlin("gradle-plugin-api"))
     compileOnly(kotlin("gradle-plugin"))
 
-    // https://github.com/ktorio/ktor/releases
-    val ktorVersion = "2.3.6"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation(libs.kotlinx.coroutines.core)
 
-    // https://github.com/Kotlin/kotlinx.coroutines/releases
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
 
-    // https://github.com/square/kotlinpoet/releases
-    implementation("com.squareup:kotlinpoet:1.15.1")
+    implementation(libs.kotlinpoet)
 }
 
 java {
     withSourcesJar()
+}
+
+kotlin {
+    jvmToolchain {
+        this.languageVersion = JavaLanguageVersion.of(libs.versions.toolchain.jvm.get().toInt())
+        this.vendor = JvmVendorSpec.ADOPTIUM
+    }
 }
 
 val grGit: Grgit = Grgit.open(mapOf("currentDir" to project.rootDir))
@@ -60,15 +61,13 @@ tasks {
     }
 
     withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs += listOf(
-                "-Xopt-in=kotlin.time.ExperimentalTime"
-            )
+        compilerOptions.freeCompilerArgs.apply {
+            add("-Xopt-in=kotlin.time.ExperimentalTime")
         }
     }
 
     @Suppress("UNUSED_VARIABLE") // used by github actions
-    val generateChangelog by creating {
+    val generateChangelog by registering {
         group = "localizer"
 
         doLast {
@@ -125,6 +124,7 @@ tasks {
 publishing {
     publications {
         // this is only used for publishing locally.
+        @Suppress("unused")
         val localizerPlugin by creating(MavenPublication::class) {
             pom {
                 groupId = "${project.group}"

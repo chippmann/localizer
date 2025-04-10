@@ -30,7 +30,23 @@ internal object AndroidStringResXmlGenerator {
             val translationFile = if (language == baseLanguage) {
                 srcRoot.resolve("main/res/values/strings.xml")
             } else {
-                srcRoot.resolve("main/res/values-$language/strings.xml")
+                val languageParts = language.split("-")
+                // android resources expect a region to have an r prefix
+                // example: de-CH becomes de-rCH
+                val correctedRegion = languageParts.getOrNull(1)?.let { "r$it" }
+
+                val normalizedLanguage = if (correctedRegion != null) {
+                    languageParts
+                        .toTypedArray()
+                        .apply {
+                            set(1, correctedRegion)
+                        }
+                        .joinToString("-")
+                } else {
+                    language
+                }
+
+                srcRoot.resolve("main/res/values-$normalizedLanguage/strings.xml")
             }.also {
                 it.parentFile.mkdirs()
             }
